@@ -31,7 +31,7 @@ public class StressTester {
         long startTime = System.currentTimeMillis();
 
         for (int i = 0; i < config.threads(); i++) {
-            executor.submit(new RequestWorker(config.path(), config.iterations(), result));
+            executor.submit(new RequestWorker(config, config.iterations(), result));
         }
 
         executor.shutdown();
@@ -53,6 +53,10 @@ public class StressTester {
                         "Successful: %d\n" +
                         "Success Rate: %.2f%%\n" +
                         "Average Latency: %.2fms\n" +
+                        "Client Errors (4xx): %d\n" +
+                        "Server Errors (5xx): %d\n" +
+                        "Timeouts: %d\n" +
+                        "Connection Errors: %d\n" +
                         "Total Test Time: %dms",
                 config.threads(),
                 config.iterations(),
@@ -60,6 +64,10 @@ public class StressTester {
                 result.getSuccessCount(),
                 result.getSuccessRate() * 100,
                 result.getAverageLatency(),
+                result.getClientErrors(),
+                result.getServerErrors(),
+                result.getTimeoutErrors(),
+                result.getConnectionErrors(),
                 totalTime
         );
     }

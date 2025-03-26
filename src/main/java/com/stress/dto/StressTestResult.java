@@ -6,6 +6,36 @@ public class StressTestResult {
     private final AtomicLong totalRequests = new AtomicLong();
     private final AtomicLong successCount = new AtomicLong();
     private final AtomicLong totalTime = new AtomicLong();
+    private final AtomicLong clientErrors = new AtomicLong(); // 4xx
+    private final AtomicLong serverErrors = new AtomicLong(); // 5xx
+    private final AtomicLong timeoutErrors = new AtomicLong();
+    private final AtomicLong connectionErrors = new AtomicLong();
+
+    public void addClientError() {
+        clientErrors.incrementAndGet();
+        totalRequests.incrementAndGet();
+    }
+
+    public void addServerError() {
+        serverErrors.incrementAndGet();
+        totalRequests.incrementAndGet();
+    }
+
+    public void addTimeoutError() {
+        timeoutErrors.incrementAndGet();
+        totalRequests.incrementAndGet();
+    }
+
+    public void addConnectionError() {
+        connectionErrors.incrementAndGet();
+        totalRequests.incrementAndGet();
+    }
+
+    // 新增Getter方法
+    public long getClientErrors() { return clientErrors.get(); }
+    public long getServerErrors() { return serverErrors.get(); }
+    public long getTimeoutErrors() { return timeoutErrors.get(); }
+    public long getConnectionErrors() { return connectionErrors.get(); }
 
     public long getTotalRequests() {
         return totalRequests.get();
@@ -32,7 +62,8 @@ public class StressTestResult {
 
     // Calculate average latency
     public double getAverageLatency() {
-        return totalTime.get() / (double) successCount.get();
+        long successes = successCount.get();
+        return successes == 0 ? 0.0 : (totalTime.get() / (double) successes);
     }
 
     // Calculate success rate
