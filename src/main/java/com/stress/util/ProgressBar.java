@@ -11,6 +11,7 @@ public class ProgressBar {
 
     public synchronized void update(long current) { // 改为接受当前值而非增量
         this.current = current;
+//        this.current = Math.min(current, total); // 防止超过总数
         print();
     }
 
@@ -23,7 +24,8 @@ public class ProgressBar {
         String percent = String.format("%.1f%%", progress * 100);
         String info = String.format(" %s (%d/%d)", percent, current, total);
         String brightBlueColorCode = "\u001B[94m"; // 亮蓝色
-        System.out.print(brightBlueColorCode + "\r" + bar + info + "\u001B[0m"); // 亮蓝色
+        System.out.println(brightBlueColorCode + "\r" + bar + info + "\u001B[0m"); // 亮蓝色
+        System.out.flush(); // 添加此行确保立即刷新
     }
 
     public void complete() {

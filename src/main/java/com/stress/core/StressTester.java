@@ -82,7 +82,7 @@ public class StressTester {
         scheduler.scheduleAtFixedRate(() -> {
             long completed = result.getTotalRequests();
             progressBar.update(completed); // 直接传递当前值
-        }, 0, 50, TimeUnit.MILLISECONDS);
+        }, 0, 500, TimeUnit.MILLISECONDS);
 
         long startTime = System.currentTimeMillis();
 
