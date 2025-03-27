@@ -35,20 +35,51 @@ public class StressTestRunner {
 ```
 
 ## ⚙️ Configuration Options
-| **Parameter** | Type   | **Description**               |
-| ------------- | ------ | ----------------------------- |
-| threads       | int    | Number of threads             |
-| iterations    | int    | Number of requests per thread |
-| path          | String | API endpoint                  |
+| **Parameter** | Type     | **Description**                             |
+| ------------- | -------- | ------------------------------------------- |
+| threads       | int      | Number of threads                           |
+| iterations    | int      | Number of requests per thread               |
+| path          | String   | API endpoint                                |
+| method        | String   | HTTP request methods (GET, POST, PUT, etc.) |
+| headers       | String[] | Custom HTTP request headers                 |
+| body          | String   | HTTP request body content                   |
 
 ## 📊 Monitoring
 The test report will show:
 
-- Threads
-- Iterations per Thread
-- Total Request
-- Successful
-- Success Rate
-- Average Latency
-- Total Test Time
+- API path and corresponding class/method name
+
+- HTTP method used for the API
+
+- Number of threads used in the test
+
+- Iterations per thread
+
+- Total requests made
+
+- Number of successful requests and success rate percentage
+
+- Average latency in milliseconds
+
+- Number of client errors (4xx)
+
+- Number of server errors (5xx)
+
+- Number of timeout errors
+
+- Number of connection errors
+
+- Aggregated summary including total requests across all tests
+
+- Total successful requests and overall success rate percentage
+
+- Total client errors (4xx) across all tests
+
+- Total server errors (5xx) across all tests
+
+- Total timeouts across all tests
+
+- Total connection errors across all tests
+
+  
 
