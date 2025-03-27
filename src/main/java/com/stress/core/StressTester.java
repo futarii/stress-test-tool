@@ -50,22 +50,6 @@ public class StressTester {
         FileUtils.writeReport(report);
     }
 
-//    private static StressTestResult runTest(StressTest config) throws InterruptedException {
-//        ExecutorService executor = Executors.newFixedThreadPool(config.threads());
-//        StressTestResult result = new StressTestResult();
-//
-//        long startTime = System.currentTimeMillis();
-//
-//        for (int i = 0; i < config.threads(); i++) {
-//            executor.submit(new RequestWorker(config, config.iterations(), result));
-//        }
-//
-//        executor.shutdown();
-//        executor.awaitTermination(1, TimeUnit.HOURS);
-//
-//        return result;
-//    }
-
     private static StressTestResult runTest(StressTest config) throws InterruptedException {
         ExecutorService executor = Executors.newFixedThreadPool(config.threads());
         StressTestResult result = new StressTestResult();
@@ -78,10 +62,10 @@ public class StressTester {
 
         // 启动进度监控线程
         ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
-        // 修改进度更新方式（直接传递当前完成数）
+        // 修改进度更新方式
         scheduler.scheduleAtFixedRate(() -> {
             long completed = result.getTotalRequests();
-            progressBar.update(completed); // 直接传递当前值
+            progressBar.update(completed);
         }, 0, 500, TimeUnit.MILLISECONDS);
 
         long startTime = System.currentTimeMillis();
@@ -91,7 +75,7 @@ public class StressTester {
         }
 
         executor.shutdown();
-        executor.awaitTermination(1, TimeUnit.HOURS);
+        executor.awaitTermination(1, TimeUnit.HOURS); // 为测试接口的极限性能且避免服务器过载 改用串行执行的方式
 
         // 停止进度监控
         scheduler.shutdown();
