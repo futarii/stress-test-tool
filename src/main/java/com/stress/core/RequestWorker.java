@@ -15,7 +15,7 @@ public class RequestWorker implements Runnable {
     private final String url;
     private final int iterations;
     private final StressTestResult result;
-    private final StressTest config; // 新增配置对象
+    private final StressTest config;
 
     private static final HttpClient client = HttpClient.newBuilder()
             .version(HttpClient.Version.HTTP_2)
@@ -24,10 +24,10 @@ public class RequestWorker implements Runnable {
 
     // 修改构造函数接收完整配置
     public RequestWorker(StressTest config, int iterations, StressTestResult result) {
-        this.url = config.path(); // 保持与原始代码兼容
+        this.url = config.path();
         this.iterations = iterations;
         this.result = result;
-        this.config = config; // 新增配置引用
+        this.config = config;
     }
 
     @Override
@@ -55,13 +55,11 @@ public class RequestWorker implements Runnable {
         }
     }
 
-    // 新增请求构建方法
     private HttpRequest buildRequest(StressTest config) {
         HttpRequest.Builder builder = HttpRequest.newBuilder()
                 .uri(URI.create(url))
                 .timeout(Duration.ofSeconds(5));
 
-        // 设置HTTP方法
         String method = config.method().toUpperCase();
         if ("GET".equals(method)) {
             builder.GET();
@@ -69,7 +67,6 @@ public class RequestWorker implements Runnable {
             builder.method(method, HttpRequest.BodyPublishers.ofString(config.body()));
         }
 
-        // 添加请求头
         for (String header : config.headers()) {
             String[] parts = header.split(":", 2);
             if (parts.length == 2) {
@@ -80,7 +77,7 @@ public class RequestWorker implements Runnable {
         return builder.build();
     }
 
-    // 修改响应处理
+
     private void handleResponse(HttpResponse<String> response, long start) {
         long latency = System.currentTimeMillis() - start;
         int statusCode = response.statusCode();
@@ -96,7 +93,6 @@ public class RequestWorker implements Runnable {
         }
     }
 
-    // 修改异常处理
     private void handleException(Throwable ex, long start) {
         long latency = System.currentTimeMillis() - start;
         if (ex.getCause() instanceof java.net.http.HttpTimeoutException) {

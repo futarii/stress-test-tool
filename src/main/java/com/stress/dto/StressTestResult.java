@@ -31,7 +31,6 @@ public class StressTestResult {
         totalRequests.incrementAndGet();
     }
 
-    // 新增Getter方法
     public long getClientErrors() { return clientErrors.get(); }
     public long getServerErrors() { return serverErrors.get(); }
     public long getTimeoutErrors() { return timeoutErrors.get(); }
@@ -49,7 +48,6 @@ public class StressTestResult {
         return totalTime.get();
     }
 
-    // Getters and adder methods
     public void addSuccess(long duration) {
         successCount.incrementAndGet();
         totalRequests.incrementAndGet();
@@ -60,13 +58,11 @@ public class StressTestResult {
         totalRequests.incrementAndGet();
     }
 
-    // Calculate average latency
     public double getAverageLatency() {
         long successes = successCount.get();
         return successes == 0 ? 0.0 : (totalTime.get() / (double) successes);
     }
 
-    // Calculate success rate
     public double getSuccessRate() {
         return successCount.get() / (double) totalRequests.get();
     }

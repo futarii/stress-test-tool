@@ -60,9 +60,7 @@ public class StressTester {
         System.out.printf("\nStarting test: %s (%d threads × %d iterations = %d requests)%n",
                 config.path(), config.threads(), config.iterations(), totalRequests);
 
-        // 启动进度监控线程
         ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
-        // 修改进度更新方式
         scheduler.scheduleAtFixedRate(() -> {
             long completed = result.getTotalRequests();
             progressBar.update(completed);
@@ -77,7 +75,6 @@ public class StressTester {
         executor.shutdown();
         executor.awaitTermination(1, TimeUnit.HOURS); // 为测试接口的极限性能且避免服务器过载 改用串行执行的方式
 
-        // 停止进度监控
         scheduler.shutdown();
         progressBar.complete();
 
