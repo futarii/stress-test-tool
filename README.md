@@ -11,29 +11,32 @@ Add the following dependencies to your `pom.xml`:
     <artifactId>stress-test-tool</artifactId>
     <version>1.0.0</version>
 </dependency>
-
-<dependency>
-    <groupId>org.reflections</groupId>
-    <artifactId>reflections</artifactId>
-    <version>0.10.2</version>
-</dependency>
 ```
 
 ## 🚀 Quick Start
 1. Annotate Your API
-Add @StressTest to any method you want to load test
+  Add @StressTest to any method you want to load test
+
+  ```java
+  @StressTest(
+              threads = 100,
+              iterations = 10,
+              path = "http://localhost:8080/api/test",
+              method = "GET"
+  )
+  ```
 
 2. Create Test Runner
-Initialize the tester in your test class:
-```java
-public class StressTestRunner {
-    @Test
-    public void runStressTests() throws Exception {
-        StressTester.start("your package");
-    }
-}
-```
+  Initialize the tester in your test class:
 
+  ```java
+  public class StressTestRunner {
+      @Test
+      public void runStressTests() throws Exception {
+          StressTester.start("your package");
+      }
+  }
+  ```
 ## ⚙️ Configuration Options
 | **Parameter** | Type     | **Description**                             |
 | ------------- | -------- | ------------------------------------------- |
